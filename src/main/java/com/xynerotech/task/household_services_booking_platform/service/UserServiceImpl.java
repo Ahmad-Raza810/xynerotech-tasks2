@@ -2,9 +2,8 @@ package com.xynerotech.task.household_services_booking_platform.service;
 
 import com.xynerotech.task.household_services_booking_platform.entities.User;
 import com.xynerotech.task.household_services_booking_platform.exception.ResourceNotFoundException;
-import com.xynerotech.task.household_services_booking_platform.response.UserRepository;
+import com.xynerotech.task.household_services_booking_platform.repository.UserRepository;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
