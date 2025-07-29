@@ -5,6 +5,7 @@ import com.xynerotech.task.household_services_booking_platform.exception.Resourc
 import com.xynerotech.task.household_services_booking_platform.repository.UserRepository;
 import lombok.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -62,13 +63,13 @@ public class UserServiceImpl implements UserService{
                         ("User with id '"+userId+"' not exist. "));
 
 
-        if (updatedUser.getUserName()!=null)
+        if (StringUtils.hasText(updatedUser.getUserName()))
               returnedUser.setUserName(updatedUser.getUserName());
 
-        if(updatedUser.getEmail()!=null)
+        if(StringUtils.hasText(updatedUser.getEmail()))
             returnedUser.setEmail(updatedUser.getEmail());
 
-        if (updatedUser.getPassword()!=null)
+        if (StringUtils.hasText(updatedUser.getPassword()))
             returnedUser.setPassword(updatedUser.getPassword());
 
 
