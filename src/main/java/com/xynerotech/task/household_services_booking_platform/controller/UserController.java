@@ -1,5 +1,7 @@
 package com.xynerotech.task.household_services_booking_platform.controller;
 
+import com.xynerotech.task.household_services_booking_platform.dto.CreateUserDTO;
+import com.xynerotech.task.household_services_booking_platform.dto.UserResponseDTO;
 import com.xynerotech.task.household_services_booking_platform.dto.UserUpdateDTO;
 import com.xynerotech.task.household_services_booking_platform.entities.User;
 import com.xynerotech.task.household_services_booking_platform.exception.ResourceNotFoundException;
@@ -30,37 +32,37 @@ public class UserController {
 
     //api endpoint for adding new user.
     @PostMapping("/add")
-    public ResponseEntity<ApiResponse<User>> addUser(@Valid @RequestBody User user, HttpServletRequest request) {
+    public ResponseEntity<ApiResponse<UserResponseDTO>> addUser(@Valid @RequestBody CreateUserDTO createUserDTO, HttpServletRequest request) {
         System.out.println("Incoming path: " + request.getRequestURI()); // Debug log
-        User returnedUser = userService.addUser(user);
+        User returnedUser = userService.addUser(CreateUserDTO.dtoToUser(createUserDTO));
+        UserResponseDTO responseDTO=UserResponseDTO.userToResponseDto(returnedUser);
 
-        ApiResponse<User> response = new ApiResponse<>(
+        ApiResponse<UserResponseDTO> response = new ApiResponse<>(
                 "User added successfully.",
                 LocalDateTime.now(),
-                returnedUser,
+                responseDTO,
                 true,
                 HttpStatus.CREATED.value()
         );
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
-       // return ResponseEntity.ok("Test response - no redirect");
-
     }
 
     //api endpoint for getting  user by id.
     @GetMapping("/get/{id}")
-    public ResponseEntity<ApiResponse<User>> getUserById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<UserResponseDTO>> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
+       UserResponseDTO responseDTO=UserResponseDTO.userToResponseDto(user);
 
-        ApiResponse<User> response = new ApiResponse<>(
+        ApiResponse<UserResponseDTO> response = new ApiResponse<>(
                 "User fetched successfully",
                 LocalDateTime.now(),
-                user,
+                responseDTO,
                 true,
                 HttpStatus.OK.value()
         );
 
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
@@ -68,9 +70,10 @@ public class UserController {
 
     //api endpoint for getting all users.
     @GetMapping("/get")
-    public ResponseEntity<List<User>> getAllUser(){
+    public ResponseEntity<List<UserResponseDTO>> getAllUser(){
         List<User> users= userService.getAllUser();
-        return  new ResponseEntity<>(users,HttpStatus.OK);
+        List<UserResponseDTO> responseDTOList=users.stream().map(UserResponseDTO::userToResponseDto).toList();
+        return  new ResponseEntity<>(responseDTOList,HttpStatus.OK);
     }
 
 
@@ -78,7 +81,7 @@ public class UserController {
     @PutMapping("/update/{userId}")
     public ResponseEntity<ApiResponse<UserUpdateDTO>> updateUser(@PathVariable("userId") Long userId,@Valid @RequestBody UserUpdateDTO updatedUser){
         User returnedUser=userService.updateUser(userId,UserUpdateDTO.dtoToUser(updatedUser));
-        UserUpdateDTO returnedUserUpdateDTO= UserUpdateDTO.userToDto(returnedUser);
+        UserUpdateDTO returnedUserUpdateDTO=UserUpdateDTO.userToDto(returnedUser);
         ApiResponse<UserUpdateDTO> response=new ApiResponse<>(
                 "user successfully updated.",
                 LocalDateTime.now(),
