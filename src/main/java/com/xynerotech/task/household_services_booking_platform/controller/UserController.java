@@ -1,5 +1,6 @@
 package com.xynerotech.task.household_services_booking_platform.controller;
 
+import com.xynerotech.task.household_services_booking_platform.dto.UserUpdateDTO;
 import com.xynerotech.task.household_services_booking_platform.entities.User;
 import com.xynerotech.task.household_services_booking_platform.exception.ResourceNotFoundException;
 import com.xynerotech.task.household_services_booking_platform.response.ApiResponse;
@@ -75,12 +76,13 @@ public class UserController {
 
     //api endpoint for updating a user.
     @PutMapping("/update/{userId}")
-    public ResponseEntity<ApiResponse<User>> updateUser(@PathVariable("userId") Long userId,@Valid @RequestBody User updatedUser){
-        User returnedUser=userService.updateUser(userId,updatedUser);
-        ApiResponse<User> response=new ApiResponse<>(
+    public ResponseEntity<ApiResponse<UserUpdateDTO>> updateUser(@PathVariable("userId") Long userId,@Valid @RequestBody UserUpdateDTO updatedUser){
+        User returnedUser=userService.updateUser(userId,UserUpdateDTO.dtoToUser(updatedUser));
+        UserUpdateDTO returnedUserUpdateDTO= UserUpdateDTO.userToDto(returnedUser);
+        ApiResponse<UserUpdateDTO> response=new ApiResponse<>(
                 "user successfully updated.",
                 LocalDateTime.now(),
-                returnedUser,
+                returnedUserUpdateDTO,
                 true,
                 HttpStatus.OK.value()
         );
