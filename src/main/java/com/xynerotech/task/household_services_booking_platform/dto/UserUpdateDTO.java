@@ -1,5 +1,6 @@
     package com.xynerotech.task.household_services_booking_platform.dto;
 
+    import com.fasterxml.jackson.annotation.JsonIgnore;
     import com.xynerotech.task.household_services_booking_platform.entities.User;
     import com.xynerotech.task.household_services_booking_platform.validation.AtLeastOneFieldNotEmpty;
     import jakarta.validation.constraints.Email;
@@ -24,6 +25,7 @@
         @Email(message = "Invalid email format.")
         private String email;
 
+        @JsonIgnore
         private String password;
 
         public static User dtoToUser(UserUpdateDTO userUpdateDTO){
