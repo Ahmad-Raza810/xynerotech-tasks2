@@ -36,6 +36,11 @@ public class GlobalExceptionHandler {
             errors.put(error.getField(), error.getDefaultMessage());
         });
 
+        // Class-level (global) errors
+        ex.getBindingResult().getGlobalErrors().forEach(error -> {
+            errors.put("error", error.getDefaultMessage());
+        });
+
         response.put("message", "Validation Failed");
         response.put("errors", errors);
         response.put("timestamp", LocalDateTime.now());
