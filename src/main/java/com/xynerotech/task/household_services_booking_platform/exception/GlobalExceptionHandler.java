@@ -17,12 +17,14 @@ public class GlobalExceptionHandler {
 
     //exception handler for ResourceNotFoundException
     @ExceptionHandler(value = ResourceNotFoundException.class )
-    public ErrorResponse handlerResourceNotFoundException(ResourceNotFoundException exception){
+    public ResponseEntity<ErrorResponse> handlerResourceNotFoundException(ResourceNotFoundException exception){
 
-        return new ErrorResponse(
+        ErrorResponse errorResponse=new ErrorResponse(
                 exception.getMessage(),
                 LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value());
+
+        return new ResponseEntity<>(errorResponse,HttpStatus.BAD_REQUEST);
 
     }
 
