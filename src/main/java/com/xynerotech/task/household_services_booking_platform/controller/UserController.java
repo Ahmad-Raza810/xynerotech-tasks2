@@ -33,7 +33,6 @@ public class UserController {
     //api endpoint for adding new user.
     @PostMapping("/add")
     public ResponseEntity<ApiResponse<UserResponseDTO>> addUser(@Valid @RequestBody CreateUserDTO createUserDTO, HttpServletRequest request) {
-        System.out.println("Incoming path: " + request.getRequestURI()); // Debug log
         User returnedUser = userService.addUser(CreateUserDTO.dtoToUser(createUserDTO));
         UserResponseDTO responseDTO=UserResponseDTO.userToResponseDto(returnedUser);
 
@@ -72,7 +71,10 @@ public class UserController {
     @GetMapping("/get")
     public ResponseEntity<List<UserResponseDTO>> getAllUser(){
         List<User> users= userService.getAllUser();
-        List<UserResponseDTO> responseDTOList=users.stream().map(UserResponseDTO::userToResponseDto).toList();
+        List<UserResponseDTO> responseDTOList=users
+                .stream()
+                .map(UserResponseDTO::userToResponseDto)
+                .toList();
         return  new ResponseEntity<>(responseDTOList,HttpStatus.OK);
     }
 
