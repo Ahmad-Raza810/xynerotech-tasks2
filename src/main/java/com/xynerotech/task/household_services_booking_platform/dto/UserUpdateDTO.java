@@ -4,7 +4,6 @@
     import com.xynerotech.task.household_services_booking_platform.entities.User;
     import com.xynerotech.task.household_services_booking_platform.validation.AtLeastOneFieldNotEmpty;
     import jakarta.validation.constraints.Email;
-    import jakarta.validation.constraints.NotBlank;
     import lombok.AllArgsConstructor;
     import lombok.Data;
     import lombok.NoArgsConstructor;
@@ -42,7 +41,7 @@
             userUpdateDTO.setUserName(user.getUserName());
             userUpdateDTO.setEmail(user.getEmail());
             userUpdateDTO.setPassword(user.getPassword());
-            userUpdateDTO.setRole(user.getRole());
+            userUpdateDTO.setRole(user.getRole().name());
             return userUpdateDTO;
         }
     }
