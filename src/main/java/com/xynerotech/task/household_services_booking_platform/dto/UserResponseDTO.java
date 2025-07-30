@@ -20,7 +20,12 @@ public class UserResponseDTO {
         responseDTO.setUserId(user.getUserId());
         responseDTO.setUserName(user.getUserName());
         responseDTO.setEmail(user.getEmail());
-        responseDTO.setRole(user.getRole());
+
+        if (user.getRole() != null) {
+            responseDTO.setRole(user.getRole().name());
+        } else {
+            responseDTO.setRole(null);  // ya "UNKNOWN" if you prefer
+        }
 
         return responseDTO;
     }
