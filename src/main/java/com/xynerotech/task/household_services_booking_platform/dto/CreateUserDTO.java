@@ -1,7 +1,7 @@
 package com.xynerotech.task.household_services_booking_platform.dto;
 
+import com.xynerotech.task.household_services_booking_platform.entities.AppUser;
 import com.xynerotech.task.household_services_booking_platform.entities.Role;
-import com.xynerotech.task.household_services_booking_platform.entities.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -23,8 +23,8 @@ public class CreateUserDTO {
     private String password;
 
 
-    public static User dtoToUser(CreateUserDTO createUserDTO){
-        User user=new User();
+    public static AppUser dtoToUser(CreateUserDTO createUserDTO){
+        AppUser user=new AppUser();
         user.setUserName(createUserDTO.getUserName());
         user.setEmail(createUserDTO.getEmail());
         user.setPassword(createUserDTO.getPassword());
@@ -32,7 +32,7 @@ public class CreateUserDTO {
         return user;
     }
 
-    public static CreateUserDTO userToDto(User user){
+    public static CreateUserDTO userToDto(AppUser user){
         CreateUserDTO createUserDTO=new CreateUserDTO();
         createUserDTO.setUserName(user.getUserName());
         createUserDTO.setEmail(user.getEmail());
