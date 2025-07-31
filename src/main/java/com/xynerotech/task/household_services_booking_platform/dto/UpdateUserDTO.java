@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @AtLeastOneFieldNotEmpty(message = "At least one field (userName, email, or password) must be provided.")
-public class UserUpdateDTO {
+public class UpdateUserDTO {
 
     private String userName;
     private Long userId;
@@ -23,23 +23,23 @@ public class UserUpdateDTO {
     @JsonIgnore
     private String password;
 
-    public static AppUser dtoToUser(UserUpdateDTO userUpdateDTO) {
+    public static AppUser dtoToUser(UpdateUserDTO updateUserDTO) {
         AppUser user = new AppUser();
 
-        if (userUpdateDTO.getUserName() != null)
-            user.setUserName(userUpdateDTO.getUserName());
+        if (updateUserDTO.getUserName() != null)
+            user.setUserName(updateUserDTO.getUserName());
 
-        if (userUpdateDTO.getEmail() != null)
-            user.setEmail(userUpdateDTO.getEmail());
+        if (updateUserDTO.getEmail() != null)
+            user.setEmail(updateUserDTO.getEmail());
 
-        if (userUpdateDTO.getPassword() != null)
-            user.setPassword(userUpdateDTO.getPassword());
+        if (updateUserDTO.getPassword() != null)
+            user.setPassword(updateUserDTO.getPassword());
 
         return user;
     }
 
-    public static UserUpdateDTO userToDto(AppUser user) {
-        UserUpdateDTO dto = new UserUpdateDTO();
+    public static UpdateUserDTO userToDto(AppUser user) {
+        UpdateUserDTO dto = new UpdateUserDTO();
         dto.setUserId(user.getUserId());
         dto.setUserName(user.getUserName());
         dto.setEmail(user.getEmail());
