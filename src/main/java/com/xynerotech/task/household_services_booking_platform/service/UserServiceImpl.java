@@ -1,6 +1,6 @@
 package com.xynerotech.task.household_services_booking_platform.service;
 
-import com.xynerotech.task.household_services_booking_platform.entities.User;
+import com.xynerotech.task.household_services_booking_platform.entities.AppUser;
 import com.xynerotech.task.household_services_booking_platform.exception.ResourceNotFoundException;
 import com.xynerotech.task.household_services_booking_platform.repository.UserRepository;
 import lombok.*;
@@ -22,13 +22,13 @@ public class UserServiceImpl implements UserService{
 
     //service method for add a new user.
     @Override
-    public User addUser(User user) {
+    public AppUser addUser(AppUser user) {
         return userRepository.save(user);
     }
 
     //service method for get  user by id.
     @Override
-    public User getUserById(Long userId) {
+    public AppUser getUserById(Long userId) {
       return   userRepository
                 .findById(userId)
                 .orElseThrow(()->new ResourceNotFoundException
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService{
 
     //service method for getting all user.
     @Override
-    public List<User> getAllUser() {
+    public List<AppUser> getAllUser() {
         return userRepository.findAll();
     }
 
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService{
     //service method for deleting a user.
     @Override
     public void deleteUser(Long userId) {
-       User returnedUser=userRepository
+        AppUser returnedUser=userRepository
                 .findById(userId)
                 .orElseThrow(()->new ResourceNotFoundException
                         ("User with id '"+userId+"' not exist. "));
@@ -56,8 +56,8 @@ public class UserServiceImpl implements UserService{
 
     //service method for updating a user.
     @Override
-    public User updateUser(Long userId, User updatedUser) {
-        User returnedUser=userRepository
+    public AppUser updateUser(Long userId, AppUser updatedUser) {
+        AppUser returnedUser=userRepository
                 .findById(userId)
                 .orElseThrow(()->new ResourceNotFoundException
                         ("User with id '"+userId+"' not exist. "));
