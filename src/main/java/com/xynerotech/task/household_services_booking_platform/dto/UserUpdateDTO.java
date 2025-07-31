@@ -1,49 +1,49 @@
-    package com.xynerotech.task.household_services_booking_platform.dto;
+package com.xynerotech.task.household_services_booking_platform.dto;
 
-    import com.fasterxml.jackson.annotation.JsonIgnore;
-    import com.xynerotech.task.household_services_booking_platform.entities.User;
-    import com.xynerotech.task.household_services_booking_platform.validation.AtLeastOneFieldNotEmpty;
-    import jakarta.validation.constraints.Email;
-    import lombok.AllArgsConstructor;
-    import lombok.Data;
-    import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.xynerotech.task.household_services_booking_platform.entities.AppUser;
+import com.xynerotech.task.household_services_booking_platform.validation.AtLeastOneFieldNotEmpty;
+import jakarta.validation.constraints.Email;
+import lombok.*;
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @AtLeastOneFieldNotEmpty(message = "At least one field (userName, email, or password) must be provided.")
-    public class UserUpdateDTO {
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@AtLeastOneFieldNotEmpty(message = "At least one field (userName, email, or password) must be provided.")
+public class UserUpdateDTO {
 
+    private String userName;
+    private Long userId;
+    private String role;
 
-        private String userName;
+    @Email(message = "Invalid email format.")
+    private String email;
 
-        private Long userId;
+    @JsonIgnore
+    private String password;
 
-        private String role;
+    public static AppUser dtoToUser(UserUpdateDTO userUpdateDTO) {
+        AppUser user = new AppUser();
 
-        @Email(message = "Invalid email format.")
-        private String email;
-
-        @JsonIgnore
-        private String password;
-
-        public static User dtoToUser(UserUpdateDTO userUpdateDTO){
-            User user=new User();
+        if (userUpdateDTO.getUserName() != null)
             user.setUserName(userUpdateDTO.getUserName());
-            user.setEmail(userUpdateDTO.getEmail());
-            user.setPassword(userUpdateDTO.getPassword());
-            return user;
-        }
 
-        public static UserUpdateDTO userToDto(User user){
-            UserUpdateDTO userUpdateDTO=new UserUpdateDTO();
-            userUpdateDTO.setUserId(user.getUserId());
-            userUpdateDTO.setUserName(user.getUserName());
-            userUpdateDTO.setEmail(user.getEmail());
-            userUpdateDTO.setPassword(user.getPassword());
-            userUpdateDTO.setRole(user.getRole().name());
-            return userUpdateDTO;
-        }
+        if (userUpdateDTO.getEmail() != null)
+            user.setEmail(userUpdateDTO.getEmail());
+
+        if (userUpdateDTO.getPassword() != null)
+            user.setPassword(userUpdateDTO.getPassword());
+
+        return user;
     }
 
-
+    public static UserUpdateDTO userToDto(AppUser user) {
+        UserUpdateDTO dto = new UserUpdateDTO();
+        dto.setUserId(user.getUserId());
+        dto.setUserName(user.getUserName());
+        dto.setEmail(user.getEmail());
+        dto.setRole(user.getRole().name());
+        return dto;
+    }
+}
