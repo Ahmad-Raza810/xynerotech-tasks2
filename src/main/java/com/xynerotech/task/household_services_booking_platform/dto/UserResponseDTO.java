@@ -1,11 +1,10 @@
 package com.xynerotech.task.household_services_booking_platform.dto;
 
-import com.xynerotech.task.household_services_booking_platform.entities.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.xynerotech.task.household_services_booking_platform.entities.AppUser;
+import lombok.*;
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponseDTO {
@@ -15,7 +14,7 @@ public class UserResponseDTO {
     private String role;
 
 
-    public static UserResponseDTO userToResponseDto(User user){
+    public static UserResponseDTO userToResponseDto(AppUser user){
         UserResponseDTO responseDTO=new UserResponseDTO();
         responseDTO.setUserId(user.getUserId());
         responseDTO.setUserName(user.getUserName());
