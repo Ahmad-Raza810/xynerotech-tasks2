@@ -1,12 +1,8 @@
 package com.xynerotech.task.household_services_booking_platform.exception;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
+import lombok.*;
 import java.time.LocalDateTime;
-
-
-@Data
+@Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class ErrorResponse {
     private String message;
