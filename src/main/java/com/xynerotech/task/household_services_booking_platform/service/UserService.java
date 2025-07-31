@@ -1,18 +1,17 @@
 package com.xynerotech.task.household_services_booking_platform.service;
 
-import com.xynerotech.task.household_services_booking_platform.entities.User;
-
+import com.xynerotech.task.household_services_booking_platform.entities.AppUser;
 import java.util.List;
 
 public interface UserService {
 
-    User addUser(User user);
+    AppUser addUser(AppUser user);
 
-    User getUserById(Long id);
+    AppUser getUserById(Long id);
 
-    List<User> getAllUser();
+    List<AppUser> getAllUser();
 
     void deleteUser(Long id);
 
-    User updateUser(Long id,User user);
+    AppUser updateUser(Long id,AppUser user);
 }
