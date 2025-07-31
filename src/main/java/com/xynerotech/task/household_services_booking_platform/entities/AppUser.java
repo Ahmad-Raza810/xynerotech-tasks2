@@ -4,15 +4,14 @@ package com.xynerotech.task.household_services_booking_platform.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
-@Entity
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@Entity
+public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -3,13 +3,10 @@ package com.xynerotech.task.household_services_booking_platform.controller;
 import com.xynerotech.task.household_services_booking_platform.dto.CreateUserDTO;
 import com.xynerotech.task.household_services_booking_platform.dto.UserResponseDTO;
 import com.xynerotech.task.household_services_booking_platform.dto.UserUpdateDTO;
-import com.xynerotech.task.household_services_booking_platform.entities.User;
-import com.xynerotech.task.household_services_booking_platform.exception.ResourceNotFoundException;
+import com.xynerotech.task.household_services_booking_platform.entities.AppUser;
 import com.xynerotech.task.household_services_booking_platform.response.ApiResponse;
 import com.xynerotech.task.household_services_booking_platform.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +29,9 @@ public class UserController {
 
     //api endpoint for adding new user.
     @PostMapping("/add")
-    public ResponseEntity<ApiResponse<UserResponseDTO>> addUser(@Valid @RequestBody CreateUserDTO createUserDTO, HttpServletRequest request) {
-        User returnedUser = userService.addUser(CreateUserDTO.dtoToUser(createUserDTO));
+    public ResponseEntity<ApiResponse<UserResponseDTO>> addUser(@Valid @RequestBody CreateUserDTO createUserDTO) {
+        AppUser convertUser=CreateUserDTO.dtoToUser(createUserDTO);
+        AppUser returnedUser = userService.addUser(convertUser);
         UserResponseDTO responseDTO=UserResponseDTO.userToResponseDto(returnedUser);
 
         ApiResponse<UserResponseDTO> response = new ApiResponse<>(
@@ -50,7 +48,7 @@ public class UserController {
     //api endpoint for getting  user by id.
     @GetMapping("/get/{id}")
     public ResponseEntity<ApiResponse<UserResponseDTO>> getUserById(@PathVariable Long id) {
-        User user = userService.getUserById(id);
+        AppUser user = userService.getUserById(id);
        UserResponseDTO responseDTO=UserResponseDTO.userToResponseDto(user);
 
         ApiResponse<UserResponseDTO> response = new ApiResponse<>(
@@ -70,7 +68,7 @@ public class UserController {
     //api endpoint for getting all users.
     @GetMapping("/get")
     public ResponseEntity<List<UserResponseDTO>> getAllUser(){
-        List<User> users= userService.getAllUser();
+        List<AppUser> users= userService.getAllUser();
         List<UserResponseDTO> responseDTOList=users
                 .stream()
                 .map(UserResponseDTO::userToResponseDto)
@@ -82,7 +80,7 @@ public class UserController {
     //api endpoint for updating a user.
     @PutMapping("/update/{userId}")
     public ResponseEntity<ApiResponse<UserUpdateDTO>> updateUser(@PathVariable("userId") Long userId,@Valid @RequestBody UserUpdateDTO updatedUser){
-        User returnedUser=userService.updateUser(userId,UserUpdateDTO.dtoToUser(updatedUser));
+        AppUser returnedUser=userService.updateUser(userId,UserUpdateDTO.dtoToUser(updatedUser));
         UserUpdateDTO returnedUserUpdateDTO=UserUpdateDTO.userToDto(returnedUser);
         ApiResponse<UserUpdateDTO> response=new ApiResponse<>(
                 "user successfully updated.",
@@ -97,9 +95,9 @@ public class UserController {
 
     //api endpoint for deleting a user
     @DeleteMapping("/delete/{userId}")
-    public ResponseEntity<ApiResponse<User>> deleteUser(@PathVariable("userId") Long userId){
+    public ResponseEntity<ApiResponse<AppUser>> deleteUser(@PathVariable("userId") Long userId){
         userService.deleteUser(userId);
-        ApiResponse<User> response=new ApiResponse<>(
+        ApiResponse<AppUser> response=new ApiResponse<>(
                 "user deleted successfully.",
                 LocalDateTime.now(),
                 null,
