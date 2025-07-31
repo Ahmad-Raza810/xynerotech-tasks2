@@ -2,7 +2,7 @@ package com.xynerotech.task.household_services_booking_platform.controller;
 
 import com.xynerotech.task.household_services_booking_platform.dto.CreateUserDTO;
 import com.xynerotech.task.household_services_booking_platform.dto.UserResponseDTO;
-import com.xynerotech.task.household_services_booking_platform.dto.UserUpdateDTO;
+import com.xynerotech.task.household_services_booking_platform.dto.UpdateUserDTO;
 import com.xynerotech.task.household_services_booking_platform.entities.AppUser;
 import com.xynerotech.task.household_services_booking_platform.response.ApiResponse;
 import com.xynerotech.task.household_services_booking_platform.service.UserService;
@@ -79,13 +79,13 @@ public class UserController {
 
     //api endpoint for updating a user.
     @PutMapping("/update/{userId}")
-    public ResponseEntity<ApiResponse<UserUpdateDTO>> updateUser(@PathVariable("userId") Long userId,@Valid @RequestBody UserUpdateDTO updatedUser){
-        AppUser returnedUser=userService.updateUser(userId,UserUpdateDTO.dtoToUser(updatedUser));
-        UserUpdateDTO returnedUserUpdateDTO=UserUpdateDTO.userToDto(returnedUser);
-        ApiResponse<UserUpdateDTO> response=new ApiResponse<>(
+    public ResponseEntity<ApiResponse<UpdateUserDTO>> updateUser(@PathVariable("userId") Long userId, @Valid @RequestBody UpdateUserDTO updatedUser){
+        AppUser returnedUser=userService.updateUser(userId, UpdateUserDTO.dtoToUser(updatedUser));
+        UpdateUserDTO returnedUpdateUserDTO = UpdateUserDTO.userToDto(returnedUser);
+        ApiResponse<UpdateUserDTO> response=new ApiResponse<>(
                 "user successfully updated.",
                 LocalDateTime.now(),
-                returnedUserUpdateDTO,
+                returnedUpdateUserDTO,
                 true,
                 HttpStatus.OK.value()
         );
