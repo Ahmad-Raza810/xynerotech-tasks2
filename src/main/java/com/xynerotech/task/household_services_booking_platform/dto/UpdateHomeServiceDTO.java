@@ -40,13 +40,5 @@ public class UpdateHomeServiceDTO {
         return homeService;
     }
 
-    public static CreateHomeServiceDTO homeServiceToDto(HomeService homeService) {
-        CreateHomeServiceDTO dto = new CreateHomeServiceDTO();
-        //  dto.setUserId(user.getUserId());
-        dto.setName(homeService.getName());
-        dto.setDescription(homeService.getDescription());
-        dto.setPrice(homeService.getPrice());
-        return dto;
-    }
 }
 
