@@ -1,6 +1,8 @@
 package com.xynerotech.task.household_services_booking_platform.controller;
 
 import com.xynerotech.task.household_services_booking_platform.dto.CreateHomeServiceDTO;
+import com.xynerotech.task.household_services_booking_platform.dto.HomeServiceResponseDTO;
+import com.xynerotech.task.household_services_booking_platform.dto.UpdateHomeServiceDTO;
 import com.xynerotech.task.household_services_booking_platform.entities.HomeService;
 import com.xynerotech.task.household_services_booking_platform.response.ApiResponse;
 import com.xynerotech.task.household_services_booking_platform.service.HomeServiceService;
@@ -21,12 +23,18 @@ public class HomeServiceController {
 
     // ✅ Get all services
     @GetMapping("/get")
-    public ResponseEntity<ApiResponse<List<HomeService>>> getAllServices() {
+    public ResponseEntity<ApiResponse<List<HomeServiceResponseDTO>>> getAllServices() {
         List<HomeService> services = homeServiceService.getAllServices();
-        ApiResponse<List<HomeService>> response = new ApiResponse<>(
+
+        List<HomeServiceResponseDTO> dtos=services
+                .stream()
+                .map(HomeServiceResponseDTO::userToDto)
+                .toList();
+
+        ApiResponse<List<HomeServiceResponseDTO>> response = new ApiResponse<>(
                 "Services fetched successfully",
                 LocalDateTime.now(),
-                services,
+                dtos,
                 true,
                 HttpStatus.OK.value()
         );
@@ -49,13 +57,13 @@ public class HomeServiceController {
 
     // ✅ Add new service
     @PostMapping("/add")
-    public ResponseEntity<ApiResponse<HomeService>> addService(@Valid @RequestBody CreateHomeServiceDTO dto) {
+    public ResponseEntity<ApiResponse<HomeServiceResponseDTO>> addService(@Valid @RequestBody CreateHomeServiceDTO dto) {
         HomeService savedService = homeServiceService.addService(CreateHomeServiceDTO.dtoToHomeService(dto));
-
-        ApiResponse<HomeService> response = new ApiResponse<>(
+        HomeServiceResponseDTO responseDTO=HomeServiceResponseDTO.userToDto(savedService);
+        ApiResponse<HomeServiceResponseDTO> response = new ApiResponse<>(
                 "Service added successfully",
                 LocalDateTime.now(),
-                savedService,
+                responseDTO,
                 true,
                 HttpStatus.CREATED.value()
         );
@@ -64,13 +72,14 @@ public class HomeServiceController {
 
     // ✅ Update service
     @PutMapping("/update/{id}")
-    public ResponseEntity<ApiResponse<HomeService>> updateService(@PathVariable Long id,
-                                                                  @RequestBody HomeService updatedService) {
-        HomeService updated = homeServiceService.updateService(id, updatedService);
-        ApiResponse<HomeService> response = new ApiResponse<>(
+    public ResponseEntity<ApiResponse<HomeServiceResponseDTO>> updateService( @PathVariable Long id,
+                                                                              @Valid @RequestBody UpdateHomeServiceDTO updatedService) {
+        HomeService updated = homeServiceService.updateService(id, UpdateHomeServiceDTO.dtoToHomeService(updatedService));
+        HomeServiceResponseDTO responseDTO=HomeServiceResponseDTO.userToDto(updated);
+        ApiResponse<HomeServiceResponseDTO> response = new ApiResponse<>(
                 "Service updated successfully",
                 LocalDateTime.now(),
-                updated,
+                responseDTO,
                 true,
                 HttpStatus.OK.value()
         );
