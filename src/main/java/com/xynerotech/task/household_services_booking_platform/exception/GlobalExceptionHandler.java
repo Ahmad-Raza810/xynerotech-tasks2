@@ -25,18 +25,19 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-    // Handle Validation Errors from @Valid
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidationException(MethodArgumentNotValidException ex) {
         Map<String, Object> response = new HashMap<>();
         Map<String, String> errors = new HashMap<>();
 
+        // 🔹 Field-level errors (e.g., @NotBlank, @Email)
         ex.getBindingResult().getFieldErrors().forEach(error ->
                 errors.put(error.getField(), error.getDefaultMessage())
         );
 
+        // 🔹 Class-level errors (e.g., @AtLeastOneFieldNotEmpty)
         ex.getBindingResult().getGlobalErrors().forEach(error ->
-                errors.put("globalError_" + error.getObjectName(), error.getDefaultMessage())
+                errors.put("globalError", error.getDefaultMessage())  // key: fixed or customize it
         );
 
         response.put("success", false);
