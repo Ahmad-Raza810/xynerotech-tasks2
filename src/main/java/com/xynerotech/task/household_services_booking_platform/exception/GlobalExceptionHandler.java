@@ -1,5 +1,6 @@
 package com.xynerotech.task.household_services_booking_platform.exception;
 
+import com.xynerotech.task.household_services_booking_platform.response.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -60,6 +61,34 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+    // Handler for DuplicateResourceException
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<ApiResponse<Object>> handleEmailExistsException(DuplicateResourceException ex) {
+        ApiResponse<Object> response = new ApiResponse<>(
+                ex.getMessage(),
+                LocalDateTime.now(),
+                null,
+                false,
+                HttpStatus.BAD_REQUEST.value()
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    // Handler for InvalidCredentialsException
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ApiResponse<Object>> handleInvalidCredentials(InvalidCredentialsException ex) {
+        ApiResponse<Object> response = new ApiResponse<>(
+                ex.getMessage(),
+                LocalDateTime.now(),
+                null,
+                false,
+                HttpStatus.UNAUTHORIZED.value()
+        );
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+
 
     // Handle all other exceptions
     @ExceptionHandler(Exception.class)
