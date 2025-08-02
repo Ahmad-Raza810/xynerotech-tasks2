@@ -1,9 +1,17 @@
 package com.xynerotech.task.household_services_booking_platform.service;
 
+import com.xynerotech.task.household_services_booking_platform.dto.LoginRequestDTO;
+import com.xynerotech.task.household_services_booking_platform.dto.LoginResponseDTO;
 import com.xynerotech.task.household_services_booking_platform.entities.AppUser;
+import com.xynerotech.task.household_services_booking_platform.entities.Role;
+import com.xynerotech.task.household_services_booking_platform.exception.DuplicateResourceException;
+import com.xynerotech.task.household_services_booking_platform.exception.InvalidCredentialsException;
 import com.xynerotech.task.household_services_booking_platform.exception.ResourceNotFoundException;
 import com.xynerotech.task.household_services_booking_platform.repository.UserRepository;
+import com.xynerotech.task.household_services_booking_platform.security.JwtUtil;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -12,6 +20,15 @@ import java.util.List;
 @Service
 @Data
 public class UserServiceImpl implements UserService{
+
+
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
 
     private UserRepository userRepository;
 
@@ -75,4 +92,39 @@ public class UserServiceImpl implements UserService{
 
         return userRepository.save(returnedUser);
     }
+
+
+
+    //service method for registering a user.
+    public AppUser registerUser(AppUser user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new DuplicateResourceException("Email already registered");
+        }
+
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        user.setRole(Role.USER);
+
+        return userRepository.save(user);
+    }
+
+
+    //service method for login a user.
+    public LoginResponseDTO loginUser(LoginRequestDTO dto) {
+        AppUser user = userRepository.findByEmail(dto.getEmail())
+                .orElseThrow(() -> new InvalidCredentialsException("Invalid email or password"));
+
+        if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
+            throw new InvalidCredentialsException("Invalid email or password");
+        }
+
+        String token = jwtUtil.generateToken(user.getEmail(), user.getRole().name());
+        System.out.println("Generated token: " + token);
+
+
+        return new LoginResponseDTO(token, user.getEmail(), user.getRole().name());
+    }
+
+
+
 }
