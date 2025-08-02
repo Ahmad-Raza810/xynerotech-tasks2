@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -30,6 +32,10 @@ public class AppUser {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    //ignore it  is next week task
+//    @OneToMany(mappedBy = "user")
+//    private List<Booking> bookings;
 
 
 }
