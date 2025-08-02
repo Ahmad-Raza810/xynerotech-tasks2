@@ -21,7 +21,7 @@ public class HomeServiceController {
     @Autowired
     private HomeServiceService homeServiceService;
 
-    // ✅ Get all services
+    // Get all services
     @GetMapping("/get")
     public ResponseEntity<ApiResponse<List<HomeServiceResponseDTO>>> getAllServices() {
         List<HomeService> services = homeServiceService.getAllServices();
@@ -41,7 +41,7 @@ public class HomeServiceController {
         return ResponseEntity.ok(response);
     }
 
-    // ✅ Get service by ID
+    // Get service by ID
     @GetMapping("/get/{id}")
     public ResponseEntity<ApiResponse<HomeService>> getServiceById(@PathVariable Long id) {
         HomeService service = homeServiceService.getServiceById(id);
@@ -55,7 +55,7 @@ public class HomeServiceController {
         return ResponseEntity.ok(response);
     }
 
-    // ✅ Add new service
+    // Add new service
     @PostMapping("/add")
     public ResponseEntity<ApiResponse<HomeServiceResponseDTO>> addService(@Valid @RequestBody CreateHomeServiceDTO dto) {
         HomeService savedService = homeServiceService.addService(CreateHomeServiceDTO.dtoToHomeService(dto));
@@ -70,7 +70,7 @@ public class HomeServiceController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    // ✅ Update service
+    // Update service
     @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponse<HomeServiceResponseDTO>> updateService( @PathVariable Long id,
                                                                               @Valid @RequestBody UpdateHomeServiceDTO updatedService) {
@@ -86,7 +86,7 @@ public class HomeServiceController {
         return ResponseEntity.ok(response);
     }
 
-    // ✅ Delete service
+    // Delete service
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteService(@PathVariable Long id) {
         homeServiceService.deleteService(id);
