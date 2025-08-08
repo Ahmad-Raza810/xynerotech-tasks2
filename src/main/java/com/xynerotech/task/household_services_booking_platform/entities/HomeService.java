@@ -29,4 +29,7 @@ public class HomeService {
     @NotNull(message = "Price is required")
     @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0")
     private Double price;
+
+    @OneToMany(mappedBy = "service" ,cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Booking> bookings;
 }

@@ -35,9 +35,8 @@ public class AppUser {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    //ignore it  is next week task
-//    @OneToMany(mappedBy = "user")
-//    private List<Booking> bookings;
+    @OneToMany(mappedBy = "user" ,cascade = CascadeType.ALL ,orphanRemoval = true)
+    private List<Booking> bookings;
 
 
 }
