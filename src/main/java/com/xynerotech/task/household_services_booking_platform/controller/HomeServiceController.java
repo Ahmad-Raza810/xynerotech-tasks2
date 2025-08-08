@@ -1,8 +1,8 @@
 package com.xynerotech.task.household_services_booking_platform.controller;
 
-import com.xynerotech.task.household_services_booking_platform.dto.CreateHomeServiceDTO;
-import com.xynerotech.task.household_services_booking_platform.dto.HomeServiceResponseDTO;
-import com.xynerotech.task.household_services_booking_platform.dto.UpdateHomeServiceDTO;
+import com.xynerotech.task.household_services_booking_platform.dto.homeserviceDTO.CreateHomeServiceDTO;
+import com.xynerotech.task.household_services_booking_platform.dto.homeserviceDTO.HomeServiceResponseDTO;
+import com.xynerotech.task.household_services_booking_platform.dto.homeserviceDTO.UpdateHomeServiceDTO;
 import com.xynerotech.task.household_services_booking_platform.entities.HomeService;
 import com.xynerotech.task.household_services_booking_platform.response.ApiResponse;
 import com.xynerotech.task.household_services_booking_platform.service.HomeServiceService;

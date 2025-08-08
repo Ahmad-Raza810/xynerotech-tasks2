@@ -1,4 +1,4 @@
-package com.xynerotech.task.household_services_booking_platform.dto;
+package com.xynerotech.task.household_services_booking_platform.dto.homeserviceDTO;
 
 import com.xynerotech.task.household_services_booking_platform.entities.HomeService;
 import com.xynerotech.task.household_services_booking_platform.validation.AtLeastOneFieldNotEmpty;

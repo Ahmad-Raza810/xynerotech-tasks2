@@ -1,4 +1,4 @@
-package com.xynerotech.task.household_services_booking_platform.dto;
+package com.xynerotech.task.household_services_booking_platform.dto.appuserDTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xynerotech.task.household_services_booking_platform.entities.AppUser;

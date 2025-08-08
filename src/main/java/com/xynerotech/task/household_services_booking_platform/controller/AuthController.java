@@ -3,7 +3,7 @@ package com.xynerotech.task.household_services_booking_platform.controller;
 import com.xynerotech.task.household_services_booking_platform.dto.LoginRequestDTO;
 import com.xynerotech.task.household_services_booking_platform.dto.LoginResponseDTO;
 import com.xynerotech.task.household_services_booking_platform.dto.RegisterUserDTO;
-import com.xynerotech.task.household_services_booking_platform.dto.UserResponseDTO;
+import com.xynerotech.task.household_services_booking_platform.dto.appuserDTO.UserResponseDTO;
 import com.xynerotech.task.household_services_booking_platform.entities.AppUser;
 import com.xynerotech.task.household_services_booking_platform.response.ApiResponse;
 import com.xynerotech.task.household_services_booking_platform.service.UserService;

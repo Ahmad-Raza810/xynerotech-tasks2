@@ -1,7 +1,7 @@
 package com.xynerotech.task.household_services_booking_platform.validation;
 
-import com.xynerotech.task.household_services_booking_platform.dto.UpdateHomeServiceDTO;
-import com.xynerotech.task.household_services_booking_platform.dto.UpdateUserDTO;
+import com.xynerotech.task.household_services_booking_platform.dto.homeserviceDTO.UpdateHomeServiceDTO;
+import com.xynerotech.task.household_services_booking_platform.dto.appuserDTO.UpdateUserDTO;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.util.StringUtils;

@@ -1,8 +1,8 @@
 package com.xynerotech.task.household_services_booking_platform.controller;
 
-import com.xynerotech.task.household_services_booking_platform.dto.CreateUserDTO;
-import com.xynerotech.task.household_services_booking_platform.dto.UserResponseDTO;
-import com.xynerotech.task.household_services_booking_platform.dto.UpdateUserDTO;
+import com.xynerotech.task.household_services_booking_platform.dto.appuserDTO.CreateUserDTO;
+import com.xynerotech.task.household_services_booking_platform.dto.appuserDTO.UserResponseDTO;
+import com.xynerotech.task.household_services_booking_platform.dto.appuserDTO.UpdateUserDTO;
 import com.xynerotech.task.household_services_booking_platform.entities.AppUser;
 import com.xynerotech.task.household_services_booking_platform.response.ApiResponse;
 import com.xynerotech.task.household_services_booking_platform.service.UserService;
