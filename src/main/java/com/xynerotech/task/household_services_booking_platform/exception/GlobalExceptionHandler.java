@@ -88,6 +88,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
+    // Handler for InvalidBookingDateException exception
+    @ExceptionHandler(InvalidBookingDateException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidBookingDateException(InvalidBookingDateException exception) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                exception.getMessage(),
+                LocalDateTime.now(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 
     // Handle all other exceptions
