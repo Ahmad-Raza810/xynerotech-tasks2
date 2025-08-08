@@ -25,7 +25,7 @@ public class PublicController {
         info.put("author", "Ahmad Raza");
 
         response.put("serverInfo", info);
-        response.put("tip", "You can register at /api/register or explore services at /api/services");
+        response.put("tip", "You can register at /api/register or explore services at /api/get/services");
 
         return ResponseEntity.ok(response);
     }

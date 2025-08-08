@@ -4,6 +4,7 @@ package com.xynerotech.task.household_services_booking_platform.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class AppUser {
     private String email;
 
     @NotBlank(message = "password is required.")
+    @Size(min = 6, message = "Password must be at least 6 characters long")
     private String password;
 
     @Enumerated(EnumType.STRING)

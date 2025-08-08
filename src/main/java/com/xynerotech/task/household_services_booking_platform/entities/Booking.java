@@ -18,15 +18,14 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //week - 3 task.
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id", nullable = false)
-//    private AppUser user;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "service_id", nullable = false)
-//    private HomeService service;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private AppUser user;
+
+    @ManyToOne
+    @JoinColumn(name = "service_id", nullable = false)
+    private HomeService service;
 
     private LocalDate bookingDate;
 

@@ -1,6 +1,7 @@
 package com.xynerotech.task.household_services_booking_platform.service;
 
 import com.xynerotech.task.household_services_booking_platform.entities.HomeService;
+import com.xynerotech.task.household_services_booking_platform.exception.DuplicateResourceException;
 import com.xynerotech.task.household_services_booking_platform.exception.ResourceNotFoundException;
 import com.xynerotech.task.household_services_booking_platform.repository.HomeServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,10 @@ public class HomeServiceServiceImpl implements HomeServiceService{
     //service method for adding new service.
     @Override
     public HomeService addService(HomeService service) {
-       return homeServiceRepository.save(service);
+        if (homeServiceRepository.existsByName(service.getName())) {
+            throw new DuplicateResourceException("Service already registered.");
+        }
+        return homeServiceRepository.save(service);
     }
 
     //service method for updating a service.

@@ -40,6 +40,9 @@ public class UserServiceImpl implements UserService{
     //service method for add a new user.
     @Override
     public AppUser addUser(AppUser user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new DuplicateResourceException("Email already registered.");
+        }
         return userRepository.save(user);
     }
 
@@ -98,7 +101,7 @@ public class UserServiceImpl implements UserService{
     //service method for registering a user.
     public AppUser registerUser(AppUser user) {
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new DuplicateResourceException("Email already registered");
+            throw new DuplicateResourceException("Email already registered.");
         }
 
         String encodedPassword = passwordEncoder.encode(user.getPassword());
