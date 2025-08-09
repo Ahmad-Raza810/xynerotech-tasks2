@@ -1,6 +1,6 @@
 package com.xynerotech.task.household_services_booking_platform.service;
 
-import com.xynerotech.task.household_services_booking_platform.dto.bookingDTO.CreateBookingDTO;
+import com.xynerotech.task.household_services_booking_platform.dto.bookingDTO.RequestBookingDTO;
 import com.xynerotech.task.household_services_booking_platform.entities.AppUser;
 import com.xynerotech.task.household_services_booking_platform.entities.Booking;
 import com.xynerotech.task.household_services_booking_platform.entities.BookingStatus;
@@ -37,12 +37,12 @@ public class BookingServiceImpl implements BookingService{
 
 
     @Override
-    public Booking addBooking(CreateBookingDTO bookingDTO) {
+    public Booking addBooking(Long userId,RequestBookingDTO bookingDTO) {
 
         //checking user exists or not.
        AppUser user=userRepository
-                .findById(bookingDTO.getUserId())
-                .orElseThrow(()->new ResourceNotFoundException("user with id '"+bookingDTO.getUserId()+"' not exists."));
+                .findById(userId)
+                .orElseThrow(()->new ResourceNotFoundException("user with id '"+userId+"' not exists."));
 
         //checking service exists or not.
        HomeService service=homeServiceRepository
@@ -65,7 +65,7 @@ public class BookingServiceImpl implements BookingService{
 
 
         log.info("Creating booking for userId={}, serviceId={}, date={}",
-                bookingDTO.getUserId(),
+                userId,
                 bookingDTO.getServiceId(),
                 bookingDTO.getDate());
 
