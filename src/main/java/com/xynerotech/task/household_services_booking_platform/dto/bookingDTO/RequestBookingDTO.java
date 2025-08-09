@@ -12,16 +12,13 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateBookingDTO {
+public class RequestBookingDTO {
 
-
-    @NotNull(message = "user id is required.")
-    private Long userId;
 
     @NotNull(message = "service id is required.")
     private Long serviceId;
 
-    @NotNull(message = "date is required.")
+    @NotNull(message = "date is required in (dd-mm-yy) format.")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;
 
