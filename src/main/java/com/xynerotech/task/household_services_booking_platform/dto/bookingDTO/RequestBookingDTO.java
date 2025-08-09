@@ -1,7 +1,6 @@
 package com.xynerotech.task.household_services_booking_platform.dto.bookingDTO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.xynerotech.task.household_services_booking_platform.entities.BookingStatus;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;

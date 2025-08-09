@@ -27,6 +27,7 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        // Public endpoints
                         .requestMatchers(
                                 "/api/health",
                                 "/api/register",
@@ -36,10 +37,14 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**"
                         ).permitAll()
-                        // 🔐 ADMIN only routes
+
+                        // Admin-only routes
                         .requestMatchers("/api/users/**", "/api/service/**").hasRole("ADMIN")
-                        // 🧑‍ USER-only routes (optional)
-                        //.requestMatchers("/api/bookings/**").hasRole("USER")
+
+                        // User-only routes
+                        .requestMatchers("/api/user/*/bookings/**").hasRole("USER")
+
+                        // Everything else requires authentication
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
