@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,16 +52,28 @@ public class GlobalExceptionHandler {
     }
 
 
-    // Handler for HttpMessageNotReadableException(if user send nothing in request body)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
-        ErrorResponse errorResponse = new ErrorResponse(
-                "Request body is missing or malformed",
+        Throwable cause = ex.getMostSpecificCause();
+
+        String message;
+        if (cause instanceof DateTimeParseException) {
+            message = "Invalid date format. Please use dd-mm-yy.";
+        } else {
+            message = "Invalid request body. Please check your input.";
+        }
+
+        ErrorResponse error = new ErrorResponse(
+                message,
                 LocalDateTime.now(),
-                HttpStatus.INTERNAL_SERVER_ERROR.value()
+                HttpStatus.BAD_REQUEST.value()
         );
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
+
+
+
 
     // Handler for DuplicateResourceException
     @ExceptionHandler(DuplicateResourceException.class)
