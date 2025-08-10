@@ -1,7 +1,7 @@
 package com.xynerotech.task.household_services_booking_platform.controller;
 
 
-import com.xynerotech.task.household_services_booking_platform.dto.bookingDTO.RequestBookingDTO;
+import com.xynerotech.task.household_services_booking_platform.dto.bookingDTO.CreateBookingDTO;
 import com.xynerotech.task.household_services_booking_platform.dto.bookingDTO.ResponseBookingDTO;
 import com.xynerotech.task.household_services_booking_platform.entities.Booking;
 import com.xynerotech.task.household_services_booking_platform.response.ApiResponse;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("api/user")
@@ -28,13 +27,13 @@ public class BookingController {
 
     //Route for making a booking
     @PreAuthorize("hasRole('USER')")
-    @PostMapping("/{userid}/bookings/add")
-    public ResponseEntity<ApiResponse<ResponseBookingDTO>> addBooking(@PathVariable Long userid, @Valid @RequestBody RequestBookingDTO requestBookingDTO) {
-        Booking booking = bookingService.addBooking(userid, requestBookingDTO);
+    @PostMapping("/{userid}/book")
+    public ResponseEntity<ApiResponse<ResponseBookingDTO>> addBooking(@PathVariable Long userid, @Valid @RequestBody CreateBookingDTO bookingDTO) {
+        Booking booking = bookingService.addBooking(userid, bookingDTO);
         ResponseBookingDTO responseBookingDTO = ResponseBookingDTO.bookingToDto(booking);
 
         ApiResponse<ResponseBookingDTO> response = new ApiResponse<>(
-                "Booking successfully added",
+                "Booking  confirmed..",
                 LocalDateTime.now(),
                 responseBookingDTO,
                 true,
@@ -46,7 +45,7 @@ public class BookingController {
 
 
     //Route for "Get My booking"
-    @GetMapping("/{userid}/bookings")
+    @GetMapping("/{userid}/my-bookings")
     public ResponseEntity<ApiResponse<List<ResponseBookingDTO>>> getMyBooking(
             @PathVariable("userid") Long userId,
             Authentication authentication) {
