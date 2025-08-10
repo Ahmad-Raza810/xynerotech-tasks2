@@ -21,7 +21,7 @@ public class AdminSetupConfig {
                 AppUser admin = new AppUser();
                 admin.setUserName("Admin");
                 admin.setEmail(adminEmail);
-                admin.setPassword(passwordEncoder.encode("admin123")); // ⚠️ change this later in production
+                admin.setPassword(passwordEncoder.encode("admin12")); // ⚠️ change this later in production
                 admin.setRole(Role.ADMIN);
 
                 userRepository.save(admin);
