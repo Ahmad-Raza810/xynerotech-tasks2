@@ -1,5 +1,6 @@
 package com.xynerotech.task.household_services_booking_platform.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -31,5 +32,6 @@ public class HomeService {
     private Double price;
 
     @OneToMany(mappedBy = "service" ,cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonIgnore
     private List<Booking> bookings;
 }
