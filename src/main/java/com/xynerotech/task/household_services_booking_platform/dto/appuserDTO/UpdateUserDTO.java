@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xynerotech.task.household_services_booking_platform.entities.AppUser;
 import com.xynerotech.task.household_services_booking_platform.validation.AtLeastOneFieldNotEmpty;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Setter
@@ -20,7 +21,7 @@ public class UpdateUserDTO {
     @Email(message = "Invalid email format.")
     private String email;
 
-    @JsonIgnore
+    @Size(min = 6, message = "Password must be at least 6 characters long.")
     private String password;
 
     public static AppUser dtoToUser(UpdateUserDTO updateUserDTO) {
