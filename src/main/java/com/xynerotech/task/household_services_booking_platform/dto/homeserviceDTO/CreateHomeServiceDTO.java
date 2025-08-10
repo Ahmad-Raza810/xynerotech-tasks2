@@ -15,16 +15,11 @@ public class CreateHomeServiceDTO {
     @Size(min = 10, max = 255, message = "Description must be between 10 and 255 characters")
     private String description;
 
-    @NotNull(message = "Price is required")
-    @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0")
-    private Double price;
 
     public static HomeService dtoToHomeService(CreateHomeServiceDTO dto) {
         HomeService homeService=new HomeService();
         homeService.setName(dto.getName());
         homeService.setDescription(dto.getDescription());
-        homeService.setPrice(dto.getPrice());
-
         return homeService;
 
     }
@@ -33,8 +28,6 @@ public class CreateHomeServiceDTO {
         CreateHomeServiceDTO dto=new CreateHomeServiceDTO();
         dto.setName(homeService.getName());
         dto.setDescription(homeService.getDescription());
-        dto.setPrice(homeService.getPrice());
-
         return dto;
 
     }

@@ -20,10 +20,6 @@ public class UpdateHomeServiceDTO {
     @Size(min = 10, max = 255, message = "Description must be between 10 and 255 characters")
     private String description;
 
-    @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0")
-    private Double price;
-
-
 
     public static HomeService dtoToHomeService(UpdateHomeServiceDTO dto) {
         HomeService homeService = new HomeService();
@@ -34,8 +30,6 @@ public class UpdateHomeServiceDTO {
         if (dto.getDescription() != null)
             homeService.setDescription(dto.getDescription());
 
-        if (dto.getPrice() != null)
-            homeService.setPrice(dto.getPrice());
 
         return homeService;
     }
