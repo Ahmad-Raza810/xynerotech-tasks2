@@ -49,7 +49,10 @@ public class SecurityConfig {
                         ).permitAll()
 
                         // User-only booking route — keep BEFORE admin route
-                        .requestMatchers(HttpMethod.POST, "/api/user/*/bookings/add").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "/api/user/*/book").hasRole("USER")
+
+                        .requestMatchers(HttpMethod.GET, "/api/user/*/my-bookings").hasAnyRole("USER", "ADMIN")
+
 
                         // Admin-only routes
                         .requestMatchers("/api/user/**", "/api/service/**","/api/bookings/**").hasRole("ADMIN")
