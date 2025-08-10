@@ -1,6 +1,7 @@
 package com.xynerotech.task.household_services_booking_platform.service;
 
 import com.xynerotech.task.household_services_booking_platform.dto.bookingDTO.RequestBookingDTO;
+import com.xynerotech.task.household_services_booking_platform.dto.bookingDTO.ResponseBookingDTO;
 import com.xynerotech.task.household_services_booking_platform.entities.AppUser;
 import com.xynerotech.task.household_services_booking_platform.entities.Booking;
 import com.xynerotech.task.household_services_booking_platform.entities.BookingStatus;
@@ -14,10 +15,15 @@ import com.xynerotech.task.household_services_booking_platform.repository.UserRe
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.List;
 
 
 @Slf4j
@@ -36,6 +42,7 @@ public class BookingServiceImpl implements BookingService{
 
 
 
+    //service method for make a booking
     @Override
     public Booking addBooking(Long userId,RequestBookingDTO bookingDTO) {
 
@@ -79,4 +86,32 @@ public class BookingServiceImpl implements BookingService{
 
        return  bookingRepository.save(booking);
     }
+
+    //service method get all bookings (Admin only route)
+    @Override
+    public List<Booking> getAllBookings() {
+        return bookingRepository.findAll();
+    }
+
+    @Override
+    public List<Booking> getBookingsByUserId(Long userId, Authentication authentication) {
+
+        // 1. Get logged-in user's email from authentication
+        String email = authentication.getName();
+
+        // 2. Get user from email
+        AppUser user = userRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        // 3. Check if requested userid matches logged-in user's id
+        if (!user.getUserId().equals(userId)) {
+            // Forbidden if trying to access other user's bookings
+            throw new AccessDeniedException("You are not authorized to access these bookings");
+        }
+
+        // 4. Return bookings for the authorized user
+        return bookingRepository.findByUserUserId(userId);
+    }
+
 }
