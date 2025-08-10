@@ -89,8 +89,10 @@ public class UserServiceImpl implements UserService{
         if(StringUtils.hasText(updatedUser.getEmail()))
             returnedUser.setEmail(updatedUser.getEmail());
 
-        if (StringUtils.hasText(updatedUser.getPassword()))
-            returnedUser.setPassword(updatedUser.getPassword());
+        if (StringUtils.hasText(updatedUser.getPassword())) {
+            returnedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        }
+
 
 
         return userRepository.save(returnedUser);
