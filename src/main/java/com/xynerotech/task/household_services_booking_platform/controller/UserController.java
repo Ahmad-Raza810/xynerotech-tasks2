@@ -79,13 +79,13 @@ public class UserController {
 
     //api endpoint for updating a user.
     @PutMapping("/update/{userId}")
-    public ResponseEntity<ApiResponse<UpdateUserDTO>> updateUser(@PathVariable("userId") Long userId, @Valid @RequestBody UpdateUserDTO updatedUser){
+    public ResponseEntity<ApiResponse<UserResponseDTO>> updateUser(@PathVariable("userId") Long userId, @Valid @RequestBody UpdateUserDTO updatedUser){
         AppUser returnedUser=userService.updateUser(userId, UpdateUserDTO.dtoToUser(updatedUser));
-        UpdateUserDTO returnedUpdateUserDTO = UpdateUserDTO.userToDto(returnedUser);
-        ApiResponse<UpdateUserDTO> response=new ApiResponse<>(
+        UserResponseDTO responseDTO = UserResponseDTO.userToResponseDto(returnedUser);
+        ApiResponse<UserResponseDTO> response=new ApiResponse<>(
                 "user successfully updated.",
                 LocalDateTime.now(),
-                returnedUpdateUserDTO,
+                responseDTO,
                 true,
                 HttpStatus.OK.value()
         );
