@@ -43,6 +43,10 @@ public class UserServiceImpl implements UserService{
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new DuplicateResourceException("Email already registered.");
         }
+
+        //password encoding
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         return userRepository.save(user);
     }
 

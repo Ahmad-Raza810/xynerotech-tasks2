@@ -16,8 +16,7 @@ public class AtLeastOneFieldValidator implements ConstraintValidator<AtLeastOneF
                     StringUtils.hasText(dto.getPassword());
         } else if (value instanceof UpdateHomeServiceDTO dto) {
             return StringUtils.hasText(dto.getName()) ||
-                    StringUtils.hasText(dto.getDescription()) ||
-                    dto.getPrice() != null;
+                    StringUtils.hasText(dto.getDescription());
         }
 
         return false; // unsupported object type

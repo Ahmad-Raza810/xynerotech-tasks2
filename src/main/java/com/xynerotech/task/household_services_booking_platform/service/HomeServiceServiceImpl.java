@@ -54,9 +54,6 @@ public class HomeServiceServiceImpl implements HomeServiceService{
         if (StringUtils.hasText(updatedService.getDescription()))
             returnedHomeService.setDescription(updatedService.getDescription());
 
-        if (updatedService.getPrice() != null)
-            returnedHomeService.setPrice(updatedService.getPrice());
-
 
 
         return homeServiceRepository.save(returnedHomeService);
