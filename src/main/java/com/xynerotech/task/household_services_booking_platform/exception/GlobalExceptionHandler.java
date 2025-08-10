@@ -4,6 +4,7 @@ import com.xynerotech.task.household_services_booking_platform.response.ApiRespo
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,7 +17,7 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Handler for ResourceNotFoundException
+    // Handler for ResourceNotFoundException - 404 Not Found
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex) {
         ErrorResponse errorResponse = new ErrorResponse(
@@ -27,19 +28,20 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
+    // Handler for validation errors - 400 Bad Request
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidationException(MethodArgumentNotValidException ex) {
         Map<String, Object> response = new HashMap<>();
         Map<String, String> errors = new HashMap<>();
 
-        // 🔹 Field-level errors (e.g., @NotBlank, @Email)
+        // Field-level validation errors
         ex.getBindingResult().getFieldErrors().forEach(error ->
                 errors.put(error.getField(), error.getDefaultMessage())
         );
 
-        // 🔹 Class-level errors (e.g., @AtLeastOneFieldNotEmpty)
+        // Class-level validation errors
         ex.getBindingResult().getGlobalErrors().forEach(error ->
-                errors.put("globalError", error.getDefaultMessage())  // key: fixed or customize it
+                errors.put("globalError", error.getDefaultMessage())
         );
 
         response.put("success", false);
@@ -51,14 +53,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-
+    // Handler for invalid JSON or malformed requests - 400 Bad Request
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
         Throwable cause = ex.getMostSpecificCause();
 
         String message;
         if (cause instanceof DateTimeParseException) {
-            message = "Invalid date format. Please use dd-mm-yy.";
+            message = "Invalid date format. Please use dd-MM-yyyy.";
         } else {
             message = "Invalid request body. Please check your input.";
         }
@@ -72,23 +74,20 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
-
-
-
-    // Handler for DuplicateResourceException
+    // Handler for DuplicateResourceException - 409 Conflict
     @ExceptionHandler(DuplicateResourceException.class)
-    public ResponseEntity<ApiResponse<Object>> handleEmailExistsException(DuplicateResourceException ex) {
+    public ResponseEntity<ApiResponse<Object>> handleDuplicateResourceException(DuplicateResourceException ex) {
         ApiResponse<Object> response = new ApiResponse<>(
                 ex.getMessage(),
                 LocalDateTime.now(),
                 null,
                 false,
-                HttpStatus.BAD_REQUEST.value()
+                HttpStatus.CONFLICT.value()
         );
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 
-    // Handler for InvalidCredentialsException
+    // Handler for InvalidCredentialsException - 401 Unauthorized
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<ApiResponse<Object>> handleInvalidCredentials(InvalidCredentialsException ex) {
         ApiResponse<Object> response = new ApiResponse<>(
@@ -101,31 +100,40 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
-    // Handler for InvalidBookingDateException exception
+    // Handler for InvalidBookingDateException - 400 Bad Request
     @ExceptionHandler(InvalidBookingDateException.class)
     public ResponseEntity<ErrorResponse> handleInvalidBookingDateException(InvalidBookingDateException exception) {
         ErrorResponse errorResponse = new ErrorResponse(
                 exception.getMessage(),
                 LocalDateTime.now(),
-                HttpStatus.INTERNAL_SERVER_ERROR.value()
+                HttpStatus.BAD_REQUEST.value()
         );
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    // Handler for InvalidBookingDateException exception
+    // Handler for BookingConflictException - 409 Conflict
     @ExceptionHandler(BookingConflictException.class)
     public ResponseEntity<ErrorResponse> handleBookingConflictException(BookingConflictException exception) {
         ErrorResponse errorResponse = new ErrorResponse(
                 exception.getMessage(),
                 LocalDateTime.now(),
-                HttpStatus.INTERNAL_SERVER_ERROR.value()
+                HttpStatus.CONFLICT.value()
         );
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
+    // Handler for AccessDeniedException - 403 Forbidden
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException exception) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                exception.getMessage(),
+                LocalDateTime.now(),
+                HttpStatus.FORBIDDEN.value()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+    }
 
-
-    // Handle all other exceptions
+    // Handler for all other uncaught exceptions - 500 Internal Server Error
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception exception) {
         ErrorResponse errorResponse = new ErrorResponse(
@@ -135,6 +143,5 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 
 }
